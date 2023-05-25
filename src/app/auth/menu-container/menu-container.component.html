@@ -1,0 +1,8 @@
+<div  class="pd-20 d-flex d-flex-dir-col gap-20" *ngIf="haveMenu">
+    <h1>
+        {{title.includes('+') ? 'Add new service' : title}}
+    </h1>
+    <div>
+        <app-sys-form></app-sys-form>
+    </div>
+</div>

@@ -1,1 +1,255 @@
 /* You can add global styles to this file, and also import other style files */
+
+:root {
+  --primary-color: white;
+  --primary-background-color: #001b4c;
+}
+
+html {
+  max-height: 100vh;
+  max-width: 100vw;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  overflow: hidden;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  align-items: center;
+  color: var(--primary-color);
+  background-color: var(--primary-background-color);
+}
+
+.logout {
+  font-size: 28px;
+}
+
+.example-container {
+  height: calc(100vh - 62px);
+  display: flex;
+}
+
+h1 {
+  margin: 0 !important;
+}
+
+.list-val {
+  padding: 10px;
+  font-weight: 500;
+}
+
+.list-val-add-new-service {
+  /* width: 100px; */
+  padding: 10px;
+  background-color: darkgreen;
+  color: white;
+  text-align: center;
+}
+
+.list-val-add-new-service:hover {
+  cursor: pointer;
+}
+
+.list-val:hover {
+  cursor: pointer;
+  background-color: var(--primary-color);
+}
+
+.list-val-selected {
+  color: var(--primary-background-color);
+  border-right: 3px solid var(--primary-background-color);
+}
+
+.logout-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-action-container {
+  display: flex;
+  gap: 10px;
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: calc(100vh);
+  align-items: center;
+}
+
+.pd-20 {
+  padding: 20px;
+}
+
+.gap-5 {
+  gap: 5px;
+}
+
+.gap-10 {
+  gap: 10px;
+}
+
+.gap-20 {
+  gap: 20px;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.ai-center {
+  align-items: center;
+}
+
+.justify-space-between {
+  justify-content: space-between;
+}
+
+.display-hover:hover {
+  cursor: pointer;
+}
+
+.d-flex-dir-col {
+  flex-direction: column;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.mat-mdc-card-header-text {
+  width: 100%;
+}
+
+.flex-start {
+  justify-content: flex-start;
+}
+
+.font-size-32 {
+  font-size: 32px;
+}
+
+.access-right-table {
+  max-width: calc(100vw - 400px);
+  min-width: calc(100vw - 600px);
+  width: 100%;
+}
+
+.mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+.mat-card-bg-lightgray {
+  background-color: lightgray !important;
+}
+
+.flex-direction-col {
+  flex-direction: column;
+}
+
+.flex-direction-row {
+  flex-direction: row;
+}
+
+.add-btn {
+  background-color: var(--primary-background-color) !important;
+  color: white !important;
+}
+
+.bg-color-black {
+  background-color: var(--primary-background-color) !important;
+}
+
+.font-color-white {
+  color: white;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.no-data-found {
+  text-align: center;
+  font-size: 20px;
+  color: grey;
+}
+
+.header-btn {
+  background-color: transparent !important;
+  border-color: var(--primary-color) !important;
+  color: var(--primary-color) !important;
+  border-radius: 30px !important;
+  border-width: 2px !important;
+}
+
+.header-btn:hover {
+  background-color: var(--primary-color) !important;
+  color: var(--primary-background-color) !important;
+}
+
+.w-150 {
+  width: 150px;
+}
+
+.box-shadow-none {
+  box-shadow: none !important;
+}
+
+.loader {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid var(--primary-background-color);
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+  border-color: var(--primary-background-color);
+  padding: 10px;
+  animation: rotation 1s infinite linear;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+.notification {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.disable {
+  color: gray;
+}
+
+.table-row-display-hover:hover {
+  background-color: rgb(226, 245, 252) !important;
+  cursor: pointer;
+}
+
+.notification-list-val:hover {
+  cursor: pointer;
+  background-color: lightgrey;
+}
+
+.pd-10 {
+  padding: 10px;
+}
+
+.color-danger {
+  color: red;
+}

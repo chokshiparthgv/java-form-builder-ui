@@ -1,0 +1,100 @@
+<div class="header-container">
+  <div class="d-flex ai-center gap-20">
+    <span class="display-hover" (click)="toggleSideNav()">
+      <mat-icon>menu</mat-icon>
+    </span>
+    <h1><b>JAVA FORM UI BUILDER</b></h1>
+  </div>
+  <div class="header-action-container">
+    <div *ngIf="!isLoadingRoles">
+      <button
+        class="header-btn"
+        mat-stroked-button
+        color="primary"
+        [matMenuTriggerFor]="menu"
+        [disabled]="!(this.roleServiceProvider.roles$ | async)?.length"
+      >
+        <mat-icon>person</mat-icon> ({{
+          this.roleServiceProvider.currentRole$.getValue().name
+        }})
+      </button>
+      <mat-menu #menu="matMenu">
+        <button
+          mat-menu-item
+          *ngFor="let role of this.roleServiceProvider.roles$ | async"
+          (click)="setCurrentRole(role)"
+        >
+          {{ role.name }}
+        </button>
+      </mat-menu>
+    </div>
+    <button
+      class="header-btn gap-5"
+      mat-stroked-button
+      [matMenuTriggerFor]="notification"
+    >
+      <mat-icon
+        class="notification"
+        *ngIf="
+          (this.notificationServiceProvider.listOfNotifications | async)?.length
+        "
+        >notifications_active</mat-icon
+      >
+      <mat-icon
+        class="notification"
+        *ngIf="
+          !(this.notificationServiceProvider.listOfNotifications | async)
+            ?.length
+        "
+        >notifications</mat-icon
+      >
+      <span>{{
+        (this.notificationServiceProvider.listOfNotifications | async)
+          ? (this.notificationServiceProvider.listOfNotifications | async)
+              ?.length
+          : 0
+      }}</span>
+    </button>
+    <mat-menu #notification="matMenu">
+      <div
+        *ngIf="
+          (this.notificationServiceProvider.listOfNotifications | async)?.length
+        "
+      >
+        <div
+          class="pd-20 notification-list-val"
+          *ngFor="
+            let notification of this.notificationServiceProvider
+              .listOfNotifications | async
+          "
+          (click)="
+            this.notificationServiceProvider.readNotification(notification.id)
+          "
+        >
+          {{ notification.name }}
+        </div>
+      </div>
+      <div
+        *ngIf="
+          !(this.notificationServiceProvider.listOfNotifications | async)
+            ?.length
+        "
+        class="pd-20 disable"
+      >
+        No notification found
+      </div>
+      <button
+        mat-button
+        class="w-100"
+        [disabled]="
+          !(this.notificationServiceProvider.listOfNotifications | async) ||
+          !(this.notificationServiceProvider.listOfNotifications | async)
+            ?.length
+        "
+        (click) = "this.notificationServiceProvider.clearAllNotifications()"
+      >
+        Clear All
+      </button>
+    </mat-menu>
+  </div>
+</div>

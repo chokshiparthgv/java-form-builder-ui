@@ -1,0 +1,67 @@
+<div>
+  <mat-card class="gap-10">
+    <mat-card-header>
+      <mat-card-title *ngIf="this.currentMenuInfo">
+        {{
+          this.currentMenuInfo.form?.name
+            ? this.currentMenuInfo.form?.name
+            : "N/A"
+        }}
+      </mat-card-title>
+      <mat-card-title *ngIf="!this.currentMenuInfo"> N/A </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div *ngIf="this.currentMenuInfo">
+        <div *ngIf="this.currentMenuInfo.form">
+          <form [formGroup]="currentFormMenu" class="d-flex gap-20 ai-center">
+            <div
+              *ngFor="let field of this.currentMenuInfo.form?.fields"
+              class="d-flex gap-20"
+            >
+              <div [ngSwitch]="field.type">
+                <div *ngSwitchCase="'input'">
+                  <mat-form-field appearance="outline">
+                    <mat-label>{{ field.name }}</mat-label>
+                    <input
+                      type="text"
+                      matInput
+                      [formControl]="listOfFormFields[field.name]"
+                    />
+                  </mat-form-field>
+                </div>
+
+                <div *ngSwitchCase="'date'">
+                  <mat-form-field appearance="outline">
+                    <mat-label>{{ field.name }}</mat-label>
+                    <input
+                      matInput
+                      [matDatepicker]="dp1"
+                      disabled="{{
+                        this.currentMenuInfo.permission.includes('VIEW')
+                      }}"
+                    />
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle
+                      matIconSuffix
+                      [for]="dp1"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #dp1></mat-datepicker>
+                  </mat-form-field>
+                </div>
+
+                
+              </div>
+            </div>
+            <button
+              mat-flat-button
+              color="primary"
+              [disabled]="this.currentMenuInfo.permission.includes('VIEW')"
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

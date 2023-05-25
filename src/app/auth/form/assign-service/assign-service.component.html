@@ -1,0 +1,34 @@
+<div *ngIf="!isLoading">
+  <h2 mat-dialog-title>Assign Service</h2>
+  <mat-dialog-content>
+    <p>
+      Please select service you want to assign form <b>{{ data.name }}</b> with.
+    </p>
+    <div *ngIf="listOfServices.length">
+      <form [formGroup]="assignServiceForm">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-select formControlName="serviceName">
+            <mat-option
+              *ngFor="let service of listOfServices"
+              [value]="service"
+            >
+              {{ service.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+    </div>
+    <div *ngIf="!listOfServices.length">No service found</div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button
+      mat-flat-button
+      color="primary"
+      [disabled]="assignServiceForm.invalid"
+      (click)="saveAssignService()"
+    >
+      Save
+    </button>
+  </mat-dialog-actions>
+</div>
+<div *ngIf="isLoading"> Loading...</div>

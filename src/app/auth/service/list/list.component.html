@@ -1,0 +1,83 @@
+<div class="pd-20" *ngIf="!isLoading">
+  <mat-card class="gap-20">
+    <mat-card-header>
+      <mat-card-title>
+        <div class="d-flex justify-space-between">
+          <div class="d-flex gap-20">
+            <span>Services</span>
+          </div>
+          <div (click)="this.navigationServiceProvider.navigateToNewService()">
+            <button mat-button color="primary" class="add-btn">Add</button>
+          </div>
+        </div>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div *ngIf="listOfServices.length">
+        <mat-table [dataSource]="listOfServices">
+          <ng-container matColumnDef="Name">
+            <mat-header-cell
+              *matHeaderCellDef
+              class="font-color-white justify-content-center"
+            >
+              Name
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="justify-content-center">
+              {{ element.name }}
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="Form Name">
+            <mat-header-cell
+              *matHeaderCellDef
+              class="font-color-white justify-content-center"
+            >
+              Form Name
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="justify-content-center">
+              <span *ngIf="element.form">
+                {{ element.form.name }}
+              </span>
+              <span *ngIf="!element.form"> - </span>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="Actions">
+            <mat-header-cell
+              *matHeaderCellDef
+              class="font-color-white justify-content-center"
+            >
+              Actions
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="justify-content-center">
+              <div class="d-flex justify-content-center gap-20">
+                <mat-icon class="display-hover">edit</mat-icon>
+                <mat-icon class="display-hover">delete_outline</mat-icon>
+                <mat-icon class="display-hover" (click)="openDialog(element)"
+                  >accessibility_new</mat-icon
+                >
+                <mat-icon
+                  class="display-hover"
+                  (click)="this.navigationServiceProvider.navigateToNewForm()"
+                  >note_add</mat-icon
+                >
+              </div>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row
+            *matHeaderRowDef="displayColumns"
+            class="bg-color-black"
+          ></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayColumns" class="table-row-display-hover"></mat-row>
+        </mat-table>
+      </div>
+      <div *ngIf="!listOfServices.length" class="no-data-found">
+        No services found
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+<div *ngIf="isLoading" class="d-flex justify-content-center pd-20">
+  <div class="loader"></div>
+</div>

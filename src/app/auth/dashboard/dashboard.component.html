@@ -1,0 +1,34 @@
+<div>
+  <div>
+    <app-header></app-header>
+  </div>
+  <div>
+    <div>
+      <mat-drawer-container class="example-container">
+        <mat-drawer
+          class="w-150"
+          mode="side"
+          [opened]="this.menuServiceProvider.isMenuOpen$ | async"
+        >
+          <div
+            *ngFor="let service of menuServiceProvider.services$ | async"
+            class="{{
+              service.name == (menuServiceProvider.currentMenu$ | async)?.name
+                ? 'list-val list-val-selected'
+                : 'list-val'
+            }}"
+            (click)="redirectToMenu(service)"
+          >
+            <span></span>
+            {{ service.name }}
+          </div>
+        </mat-drawer>
+        <mat-drawer-content>
+          <div>
+            <router-outlet></router-outlet>
+          </div>
+        </mat-drawer-content>
+      </mat-drawer-container>
+    </div>
+  </div>
+</div>

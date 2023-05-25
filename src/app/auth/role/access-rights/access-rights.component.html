@@ -1,0 +1,39 @@
+<div *ngIf="!isLoading" class="access-right-table">
+  <h2 mat-dialog-title>Assign rights</h2>
+  <mat-dialog-content>
+    <p>
+      Assign permission to specific service for role
+      <b>{{ data.roleInfo.name }}</b>
+    </p>
+    <div>
+      <form [formGroup]="accessRightForm">
+        <mat-table [dataSource]="listOfServices">
+          <ng-container matColumnDef="Service">
+            <mat-header-cell *matHeaderCellDef> Service </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{ element.name }} </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="Permissions">
+            <mat-header-cell *matHeaderCellDef> Permissions </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <mat-form-field appearance="outline">
+                <mat-select formControlName="{{element.name}}">
+                  <mat-option
+                    *ngFor="let permission of permissions"
+                    [value]="permission"
+                    >{{ permission }}</mat-option
+                  >
+                </mat-select>
+              </mat-form-field>
+            </mat-cell>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+        </mat-table>
+      </form>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-flat-button color="primary" [disabled]="accessRightForm.invalid || shouldDisable" (click)="saveAccessRights()">Save</button>
+  </mat-dialog-actions>
+</div>
+<div *ngIf="!isLoading"></div>

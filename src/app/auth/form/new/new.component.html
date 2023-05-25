@@ -1,0 +1,201 @@
+<div class="pd-20">
+  <mat-card class="gap-20">
+    <mat-card-header>
+      <mat-card-title>
+        <div class="d-flex flex-start gap-20">
+          <span (click)="this.navigationServiceProvider.navigateToFormList()">
+            <mat-icon class="font-size-32 display-hover" title="back to roles"
+              >keyboard_arrow_left</mat-icon
+            >
+          </span>
+          <span>New Form</span>
+        </div>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div>
+        <form
+          class="gap-20 d-flex d-flex-dir-col"
+          [formGroup]="this.genericForm"
+        >
+          <div class="d-flex gap-20">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Form Name</mat-label>
+              <input type="text" matInput formControlName="name" />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Description</mat-label>
+              <input type="text" matInput formControlName="description" />
+            </mat-form-field>
+          </div>
+          <h2>Form Fields</h2>
+          <div formArrayName="fields" class="d-flex gap-10 flex-direction-col">
+            <div *ngFor="let field of this.fields.controls; let i = index">
+              <h4>{{ this.fieldTitleInfo[i] }} Field</h4>
+              <div
+                [formGroupName]="i"
+                class="d-flex gap-10 flex-direction-row ai-center"
+              >
+                <div>
+                  <mat-icon
+                    (click)="removeField(i)"
+                    class="display-hover color-danger"
+                    >remove_circle_outline</mat-icon
+                  >
+                </div>
+                <div *ngFor="let controlName of controlsKey(field)">
+                  <!-- Field display name-->
+                  <ng-container *ngIf="controlName == 'displayName'">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Name</mat-label>
+                      <input
+                        type="text"
+                        matInput
+                        formControlName="{{ controlName }}"
+                      />
+                    </mat-form-field>
+                  </ng-container>
+
+                  <!-- Display order-->
+                  <ng-container *ngIf="controlName == 'displayOrder'">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Display Order</mat-label>
+                      <input
+                        type="number"
+                        matInput
+                        formControlName="{{ controlName }}"
+                      />
+                    </mat-form-field>
+                  </ng-container>
+
+                  <!-- Default value-->
+                  <ng-container
+                    *ngIf="
+                      controlName == 'defaultValue' &&
+                      this.fieldTitleInfo[i] == 'Text'
+                    "
+                  >
+                    <mat-form-field appearance="outline">
+                      <mat-label>Default Value</mat-label>
+                      <input
+                        type="text"
+                        matInput
+                        formControlName="{{ controlName }}"
+                      />
+                    </mat-form-field>
+                  </ng-container>
+
+                  <!-- Default date value -->
+                  <ng-container
+                    *ngIf="
+                      controlName == 'defaultValue' &&
+                      this.fieldTitleInfo[i] == 'Date'
+                    "
+                  >
+                    <mat-form-field appearance="outline">
+                      <mat-label>Default Date Value</mat-label>
+                      <input
+                        matInput
+                        [matDatepicker]="dp1"
+                        formControlName="{{ controlName }}"
+                      />
+                      <mat-hint>MM/DD/YYYY</mat-hint>
+                      <mat-datepicker-toggle
+                        matIconSuffix
+                        [for]="dp1"
+                      ></mat-datepicker-toggle>
+                      <mat-datepicker #dp1></mat-datepicker>
+                    </mat-form-field>
+                  </ng-container>
+
+                  <!-- Default number value -->
+                  <ng-container
+                    *ngIf="
+                      controlName == 'defaultValue' &&
+                      this.fieldTitleInfo[i] == 'Number'
+                    "
+                  >
+                    <mat-form-field appearance="outline">
+                      <mat-label>Default Value</mat-label>
+                      <input
+                        type="number"
+                        matInput
+                        formControlName="{{ controlName }}"
+                      />
+                    </mat-form-field>
+                  </ng-container>
+
+                  <!-- Placeholder-->
+                  <ng-container *ngIf="controlName == 'placeholder'">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Placeholder</mat-label>
+                      <input
+                        type="text"
+                        matInput
+                        formControlName="{{ controlName }}"
+                      />
+                    </mat-form-field>
+                  </ng-container>
+
+                  <!-- Regex -->
+                  <ng-container *ngIf="controlName == 'regex'">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Regex</mat-label>
+                      <input
+                        type="text"
+                        matInput
+                        formControlName="{{ controlName }}"
+                      />
+                    </mat-form-field>
+                  </ng-container>
+
+                  <!-- Required -->
+                  <ng-container *ngIf="controlName == 'required'">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Is required</mat-label>
+                      <mat-select
+                        matInput
+                        formControlName="required"
+                        [value]="false"
+                      >
+                        <mat-option [value]="true">Yes</mat-option>
+                        <mat-option [value]="false">No</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </ng-container>
+                </div>
+              </div>
+              <hr />
+            </div>
+            <div class="d-flex justify-content-center">
+              <mat-icon
+                class="display-hover"
+                [mat-menu-trigger-for]="fieldOptions"
+                >add_circle_outline</mat-icon
+              >
+              <mat-menu #fieldOptions="matMenu">
+                <div
+                  *ngFor="let type of fieldTypes"
+                  class="list-val"
+                  (click)="addFieldType(type)"
+                >
+                  {{ type.label }}
+                </div>
+              </mat-menu>
+            </div>
+          </div>
+          <div>
+            <button
+              mat-flat-button
+              color="primary"
+              [disabled]="this.genericForm.invalid"
+              (click)="saveGenericForm()"
+            >
+              Save
+            </button>
+          </div>
+        </form>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
