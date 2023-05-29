@@ -12,25 +12,31 @@ export const TYPES = [
   {
     label: 'Text',
     key: 'TEXT',
+    icon: 'text_fields'
   },
   {
     label: 'Number',
     key: 'NUMBER',
+    icon: 'format_list_numbered'
   },
   {
     label: 'Date',
     key: 'DATE',
+    icon: 'date_range'
   },
   {
     label: 'Dropdown',
     key: 'DROPDOWN',
+    icon: 'arrow_drop_down_circle'
   },
   {
     label: 'Checkbox',
     key: 'CHECKBOX',
+    icon: 'check_box'
   },
   {
     label: 'Radio',
     key: 'RADIO',
+    icon: 'radio_button_checked'
   },
 ];

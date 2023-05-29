@@ -23,8 +23,8 @@ export class NavigationService {
     this.router.navigate(['/dashboard/form/list']);
   }
 
-  navigateToNewForm() {
-    this.router.navigate(['/dashboard/form/new']);
+  navigateToNewForm(serviceId: string = '') {
+    this.router.navigate(['/dashboard/form/new', serviceId]);
   }
 
   navigateToServiceList() {

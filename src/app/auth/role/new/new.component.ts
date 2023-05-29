@@ -9,7 +9,7 @@ import { RoleService } from 'src/app/core/services/role/role.service';
   templateUrl: './new.component.html',
   styleUrls: ['./new.component.css'],
 })
-export class NewComponent {
+export class NewComponent{
   roleForm!: FormGroup;
 
   constructor(

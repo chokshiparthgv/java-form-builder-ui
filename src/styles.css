@@ -60,11 +60,13 @@ h1 {
 .list-val:hover {
   cursor: pointer;
   background-color: var(--primary-color);
+  color: var(--primary-background-color);
 }
 
 .list-val-selected {
   color: var(--primary-background-color);
-  border-right: 3px solid var(--primary-background-color);
+  background-color: var(--primary-color);
+  /* border-right: 3px solid var(--primary-background-color); */
 }
 
 .logout-container {
@@ -237,7 +239,7 @@ h1 {
 }
 
 .table-row-display-hover:hover {
-  background-color: rgb(226, 245, 252) !important;
+  background-color: lightgray !important;
   cursor: pointer;
 }
 
@@ -250,6 +252,70 @@ h1 {
   padding: 10px;
 }
 
+.pd-5 {
+  padding: 5px;
+}
+
+.mrg-5 {
+  margin: 5px;
+}
+
 .color-danger {
   color: red;
+}
+
+.menu {
+  background-color: var(--primary-background-color);
+  color: var(--primary-color);
+
+}
+
+.menu-list {
+  background: #d5d5d5;
+  color: black;
+  margin: 5px;
+  border-radius: 5px;
+}
+
+.color-gray {
+  color: gray;
+}
+
+.remove-icon {
+  height: 57px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bg-white-hover:hover {
+  background-color: white;
+}
+
+.delete-icon {
+  color: tomato;
+}
+
+.edit-icon {
+  color: blue
+}
+
+.edit-form {
+  color: green
+}
+
+.mat-drawer-side{
+  border: none;
+}
+
+.bullet-point {
+  width: 5px;
+  height: 5px;
+  display: block;
+  background-color: var(--primary-background-color);
+  border-radius: 5px;
+}
+
+.bullet-point:hover {
+  display: none;
 }

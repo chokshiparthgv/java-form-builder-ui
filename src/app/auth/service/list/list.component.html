@@ -35,10 +35,23 @@
               Form Name
             </mat-header-cell>
             <mat-cell *matCellDef="let element" class="justify-content-center">
-              <span *ngIf="element.form">
+              <span
+                *ngIf="element.form"
+                (click)="
+                  this.navigationServiceProvider.navigateToNewForm(element.id)
+                "
+              >
                 {{ element.form.name }}
               </span>
-              <span *ngIf="!element.form"> - </span>
+              <span *ngIf="!element.form">
+                <mat-icon
+                  class="display-hover edit-form"
+                  (click)="
+                    this.navigationServiceProvider.navigateToNewForm(element.id)
+                  "
+                  >note_add</mat-icon
+                >
+              </span>
             </mat-cell>
           </ng-container>
 
@@ -51,16 +64,8 @@
             </mat-header-cell>
             <mat-cell *matCellDef="let element" class="justify-content-center">
               <div class="d-flex justify-content-center gap-20">
-                <mat-icon class="display-hover">edit</mat-icon>
-                <mat-icon class="display-hover">delete_outline</mat-icon>
-                <mat-icon class="display-hover" (click)="openDialog(element)"
-                  >accessibility_new</mat-icon
-                >
-                <mat-icon
-                  class="display-hover"
-                  (click)="this.navigationServiceProvider.navigateToNewForm()"
-                  >note_add</mat-icon
-                >
+                <mat-icon class="display-hover edit-icon">edit</mat-icon>
+                <mat-icon class="display-hover delete-icon">delete</mat-icon>
               </div>
             </mat-cell>
           </ng-container>
@@ -69,7 +74,10 @@
             *matHeaderRowDef="displayColumns"
             class="bg-color-black"
           ></mat-header-row>
-          <mat-row *matRowDef="let row; columns: displayColumns" class="table-row-display-hover"></mat-row>
+          <mat-row
+            *matRowDef="let row; columns: displayColumns"
+            class="table-row-display-hover"
+          ></mat-row>
         </mat-table>
       </div>
       <div *ngIf="!listOfServices.length" class="no-data-found">

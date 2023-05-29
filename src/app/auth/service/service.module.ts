@@ -21,6 +21,6 @@ import { AssignFormComponent } from './assign-form/assign-form.component';
     ServiceRoutingModule,
     SharedModule,
     ReactiveFormsModule,
-  ],
+  ]
 })
 export class ServiceModule {}

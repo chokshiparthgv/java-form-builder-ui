@@ -65,6 +65,12 @@ export class MenuService {
     });
   }
 
+  getServiceById(serviceId: string) {
+      return this.httpApiService.getApi(
+        this.httpApiService.apiUri + ENDPOINTS.SERVICES + '/' + serviceId
+      )
+  }
+
   updateCurrentMenu(newMenuId: string) {
     const newMenu = this.services$.value.filter(
       (service) => newMenuId == service.id
