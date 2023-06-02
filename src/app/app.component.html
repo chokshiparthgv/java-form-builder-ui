@@ -1,1 +1,77 @@
 <router-outlet></router-outlet>
+<div class="container">
+  <div style="flex: 1">
+    <h1 style="text-align: center">{{ response.name }}</h1>
+    <h1 style="text-align: center">{{ response.description }}</h1>
+  </div>
+  <ng-container *ngIf="response.fieldTemplateSet.length > 0">
+    <form [formGroup]="newForm">
+      <ng-container *ngFor="let field of response.fieldTemplateSet; let i = index">
+        <div [ngSwitch]="field.type">
+          <ng-container *ngSwitchCase="'groupOfRadio'">
+            <label id="radio-group-label">{{field.name | titlecase}}</label>
+            <mat-radio-group
+              aria-labelledby="radio-group-label"
+              class="radio-group"
+              [formControlName]="field.name"
+              [name]="field.name"
+            >
+              <mat-radio-button
+                class="radio-button"
+                *ngFor="let option of field.fieldTemplateSet"
+                [value]="option.name"
+              >
+                {{ option.name | titlecase }}
+              </mat-radio-button>
+            </mat-radio-group>
+          </ng-container>
+          <ng-container *ngSwitchCase="'MultiSelect'">
+            <mat-form-field>
+              <mat-label>{{field.name | titlecase}}</mat-label>
+              <mat-select [formControlName]="field.name" multiple>
+                <mat-option *ngFor="let item of field.fieldTemplateSet" [value]="item.name">
+                  {{item.name | titlecase}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </ng-container>
+          <ng-container *ngSwitchCase="'GroupOffieldTemplateSet'">
+            <fieldset>
+              <legend>{{field.name | titlecase}}</legend>
+              <ng-container *ngIf="field.fieldTemplateSet.length > 0">
+                <div *ngFor="let group of field.fieldTemplateSet">
+                  <label>{{group.name | titlecase}}</label>
+                  <mat-form-field *ngFor="let element of group.fieldTemplateSet">
+                    <mat-label>{{element.name | titlecase}}</mat-label>
+                    <input type="text" matInput>
+                  </mat-form-field>
+                </div>
+              </ng-container>
+            </fieldset>
+          </ng-container>
+          <ng-container *ngSwitchDefault>
+            <mat-form-field>
+              <mat-label>{{ field.name }}</mat-label>
+              <input
+                [formControlName]="field.name"
+                [type]="field.type"
+                [value]="field.values"
+                [name]="field.name"
+                [id]="field.id"
+                matInput
+              />
+            </mat-form-field>
+          </ng-container>
+        </div>
+      </ng-container>
+      <button
+        type="submit"
+        [disabled]="newForm.invalid || newForm.pending"
+        [ngClass]="{ 'disabled-button': newForm.invalid || newForm.pending }"
+        (click)="submitForm()"
+      >
+        Submit
+      </button>
+    </form>
+  </ng-container>
+</div>
