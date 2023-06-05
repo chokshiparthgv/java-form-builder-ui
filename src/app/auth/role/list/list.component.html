@@ -1,13 +1,11 @@
-<div class="pd-20" *ngIf="!isLoading">
+<div class="pd-20 d-flex gap-20 d-flex-dir-col" *ngIf="!isLoading">
+  <app-new></app-new>
   <mat-card class="gap-20">
     <mat-card-header>
       <mat-card-title>
         <div class="d-flex justify-space-between">
           <div class="d-flex gap-20">
             <span>Roles</span>
-          </div>
-          <div (click)="this.navigationServiceProvider.navigateToNewRole()">
-            <button mat-button color="primary" class="add-btn">Add</button>
           </div>
         </div>
       </mat-card-title>
@@ -36,14 +34,16 @@
             </mat-header-cell>
             <mat-cell *matCellDef="let element" class="justify-content-center">
               <div class="d-flex justify-content-center gap-20">
-                <mat-icon class="display-hover">edit</mat-icon>
+                <mat-icon class="display-hover edit-icon">edit</mat-icon>
                 <mat-icon
-                  class="display-hover"
+                  class="display-hover edit-form"
                   (click)="openAccessRightModel(element)"
                   >accessibility_new</mat-icon
                 >
-                <mat-icon class="display-hover" (click)="deleteRole(element.id)"
-                  >delete_outline</mat-icon
+                <mat-icon
+                  class="display-hover delete-icon"
+                  (click)="deleteRole(element.id)"
+                  >delete</mat-icon
                 >
               </div>
             </mat-cell>

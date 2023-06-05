@@ -6,21 +6,29 @@
     <div>
       <mat-drawer-container class="example-container">
         <mat-drawer
-          class="w-150"
+          class="w-150 menu"
           mode="side"
           [opened]="this.menuServiceProvider.isMenuOpen$ | async"
         >
-          <div
-            *ngFor="let service of menuServiceProvider.services$ | async"
-            class="{{
-              service.name == (menuServiceProvider.currentMenu$ | async)?.name
-                ? 'list-val list-val-selected'
-                : 'list-val'
-            }}"
-            (click)="redirectToMenu(service)"
-          >
-            <span></span>
-            {{ service.name }}
+          <div class="d-flex gap-5 d-flex-dir-col">
+            <div
+              *ngFor="let service of menuServiceProvider.services$ | async"
+              class="{{
+                service.name == (menuServiceProvider.currentMenu$ | async)?.name
+                  ? 'list-val list-val-selected d-flex ai-center gap-5'
+                  : 'list-val d-flex ai-center gap-5'
+              }}"
+              (click)="redirectToMenu(service)"
+            >
+              <span
+                class="bullet-point"
+                *ngIf="
+                  service.name ==
+                  (menuServiceProvider.currentMenu$ | async)?.name
+                "
+              ></span>
+              {{ service.name }}
+            </div>
           </div>
         </mat-drawer>
         <mat-drawer-content>

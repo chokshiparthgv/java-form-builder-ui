@@ -23,15 +23,19 @@ export class NewComponent {
   }
 
   saveService() {
+    this.serviceForm.disable();
     this.menuServiceProvider
       .addNewService(this.serviceForm.value)
-      .subscribe(async (response) => {
+      .subscribe(async () => {
+        await this.menuServiceProvider.updateListOfAllServices();
         await this.menuServiceProvider.updateListOfServices();
         this.notificationServiceProvider.addNewNotification({
           name: 'New service added!',
           isReadByUser: false,
           redirectionUrl: 'navigateToServiceList'
         })
+        this.serviceForm.enable();
+        this.serviceForm.reset();
         this.navigationServiceProvider.navigateToServiceList();
       });
   }

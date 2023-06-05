@@ -14,6 +14,10 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatRadioModule } from "@angular/material/radio";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatNativeDateModule } from "@angular/material/core";
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatGridListModule } from "@angular/material/grid-list";
+
 @NgModule({
   declarations: [],
   imports: [
@@ -33,7 +37,10 @@ import { MatNativeDateModule } from "@angular/material/core";
     MatSelectModule,
     MatRadioModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatSlideToggleModule,
+    MatCheckboxModule,
+    MatGridListModule
   ]
 })
 export class MaterialModule { }

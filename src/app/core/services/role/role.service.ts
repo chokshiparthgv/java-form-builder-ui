@@ -19,7 +19,6 @@ export class RoleService {
         .getApi(this.httpApiService.apiUri + ENDPOINTS.ROLES)
         .subscribe(
           (response) => {
-            console.log('List of roles: ', response);
             if (response.length) {
               if(this.roles$) {
                 this.roles$.next(response);

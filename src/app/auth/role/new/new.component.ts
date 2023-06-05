@@ -18,7 +18,7 @@ export class NewComponent {
     private notificationServiceProvider: NotificationService
   ) {
     this.roleForm = new FormGroup({
-      name: new FormControl('', [Validators.required])
+      name: new FormControl('', [Validators.required]),
     });
   }
 
@@ -27,6 +27,7 @@ export class NewComponent {
   }
 
   saveRole() {
+    this.roleForm.disable();
     this.roleServiceProvider
       .addNewRole(this.roleForm.value)
       .subscribe(async (response) => {
@@ -34,8 +35,10 @@ export class NewComponent {
         this.notificationServiceProvider.addNewNotification({
           name: 'New role added!',
           isReadByUser: false,
-          redirectionUrl: 'navigateToRoleList'
+          redirectionUrl: 'navigateToRoleList',
         });
+        this.roleForm.enable();
+        this.roleForm.reset();
         this.navigationServiceProvider.navigateToRoleList();
       });
   }

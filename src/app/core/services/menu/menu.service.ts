@@ -10,11 +10,13 @@ const DEFAULT_SERVICES: IAppService[] = [
     id: '1',
     name: 'Roles',
     permission: ['EDIT'],
+    form: null,
   },
   {
     id: '2',
     name: 'Services',
     permission: ['EDIT'],
+    form: null,
   },
 ];
 
@@ -22,9 +24,10 @@ const DEFAULT_SERVICES: IAppService[] = [
   providedIn: 'root',
 })
 export class MenuService {
+  allServices$!: BehaviorSubject<IAppService[]>;
   services$!: BehaviorSubject<IAppService[]>;
   currentMenu$!: BehaviorSubject<IAppService>;
-  isMenuOpen$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  isMenuOpen$: BehaviorSubject<boolean> = new BehaviorSubject(true);
 
   constructor(
     private httpApiService: ApiService,
@@ -50,12 +53,12 @@ export class MenuService {
           this.getListOfServicesByRoleId(role.id).subscribe(
             (listOfServices) => {
               listOfServices.push(...DEFAULT_SERVICES);
-              if (!this.services$)
+              if (!this.services$) {
                 this.services$ = new BehaviorSubject(listOfServices);
-              else this.services$.next(listOfServices);
-              if (!this.currentMenu$)
-                this.currentMenu$ = new BehaviorSubject(listOfServices[0]);
-              else this.currentMenu$.next(listOfServices[0]);
+                if (!this.currentMenu$)
+                  this.currentMenu$ = new BehaviorSubject(listOfServices[0]);
+                else this.currentMenu$.next(listOfServices[0]);
+              } else this.services$.next(listOfServices);
               localStorage.setItem('currentMenu', 'true');
               resolve(true);
             }
@@ -65,10 +68,17 @@ export class MenuService {
     });
   }
 
+  getServiceById(serviceId: string) {
+    return this.httpApiService.getApi(
+      this.httpApiService.apiUri + ENDPOINTS.SERVICES + '/' + serviceId
+    );
+  }
+
   updateCurrentMenu(newMenuId: string) {
     const newMenu = this.services$.value.filter(
       (service) => newMenuId == service.id
     );
+    if (!newMenu.length) newMenu.push(...DEFAULT_SERVICES);
     if (!this.currentMenu$) this.currentMenu$ = new BehaviorSubject(newMenu[0]);
     else this.currentMenu$.next(newMenu[0]);
   }
@@ -83,5 +93,19 @@ export class MenuService {
       this.httpApiService.apiUri + ENDPOINTS.SERVICES,
       body
     );
+  }
+
+  updateListOfAllServices() {
+    return new Promise((resolve, rejects) => {
+      this.getListOfServices().subscribe((response) => {
+        if (this.allServices$) {
+          this.allServices$.next(response);
+        } else {
+          this.allServices$ = new BehaviorSubject(response);
+        }
+
+        resolve(true);
+      });
+    });
   }
 }

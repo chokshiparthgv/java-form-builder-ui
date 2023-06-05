@@ -22,8 +22,9 @@ export class AuthModule {
   async loadRoles() {
     const isRolesExist = await this.roleServiceProvider.setListOfRoles();
     if (isRolesExist) {
+      await this.menuServiceProvider.updateListOfAllServices();
       await this.menuServiceProvider.updateListOfServices();
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/java-builder-ui']);
     }
   }
 }

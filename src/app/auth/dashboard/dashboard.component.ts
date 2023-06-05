@@ -25,7 +25,7 @@ export class DashboardComponent {
         } else if (currentMenu.name == 'Services') {
           this.navigationServiceProvider.navigateToServiceList();
         } else {
-          this.router.navigate(['/dashboard/menu', currentMenu.id]);
+          this.router.navigate(['/java-builder-ui/menu', currentMenu.id]);
         }
       }
     });
@@ -38,7 +38,7 @@ export class DashboardComponent {
     else if (menuDetails.name == 'Services')
       this.navigationServiceProvider.navigateToServiceList();
     else {
-      this.router.navigate(['/dashboard/menu', menuDetails.id]);
+      this.router.navigate(['/java-builder-ui/menu', menuDetails.id]);
     }
   }
 

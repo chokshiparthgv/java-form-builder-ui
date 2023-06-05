@@ -1,3 +1,5 @@
+import { IFormFields1 } from "./form.model";
+
 export interface IFields {
   dataType: string;
   defaultValue?: string;
@@ -18,12 +20,12 @@ export interface AppFormInfo {
   name: string;
   description: string;
   aggregationType: string;
-  fields: IFields[];
+  fields: IFormFields1[];
 }
 
 export interface IAppService {
   id: string;
   name: string;
-  form?: AppFormInfo;
+  form: AppFormInfo | null;
   permission: string[];
 }
