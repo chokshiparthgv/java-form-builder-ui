@@ -24,8 +24,10 @@ export class NewComponent {
   fieldTitleInfo: string[] = [];
   serviceId: string = '';
   isLoading = true;
-
+  isUpdate = false;
+  isHidden = true;
   public fieldTypes = TYPES;
+
   constructor(
     private fb: FormBuilder,
     private genericFormServiceProvider: GenericFormService,
@@ -40,36 +42,65 @@ export class NewComponent {
       const serviceInfo = await firstValueFrom(
         this.menuServiceProvider.getServiceById(this.serviceId)
       );
-      // if (serviceInfo.form) {
-      // } else {
-        this.genericForm = new FormGroup({
-          name: new FormControl('', Validators.required),
-          description: new FormControl('', Validators.required),
-          fields: this.fb.array([]),
-        });
-      // }
+      this.genericForm = new FormGroup({
+        id: new FormControl(''),
+        name: new FormControl('', Validators.required),
+        description: new FormControl('', Validators.required),
+        fields: this.fb.array([]),
+      });
+      if (serviceInfo.form) this.generateForm(serviceInfo.form);
       this.isLoading = false;
     });
   }
 
-  private generateForm(formInfo: IFormFields1) {}
+  private generateForm(formInfo: IFormFields1) {
+    this.isUpdate = true;
+    for (let i = 0; i < formInfo.fields.length; i++) {
+      const listOfFields = formInfo.fields;
+      this.addFieldType(this.fetchFieldType(listOfFields[i].type));
+      if (listOfFields[i].fields.length) {
+        let subFieldCount = listOfFields[i].fields.length - 1;
+        while (subFieldCount) {
+          this.addFieldInGroup(i);
+          subFieldCount--;
+        }
+      }
+    }
+    this.genericForm.patchValue(formInfo);
+  }
 
   saveGenericForm() {
     this.genericForm.disable();
-    this.genericFormServiceProvider
-      .addNewForm(this.genericForm.value)
-      .subscribe((response) => {
-        this.formServiceProvider
-          .assignFormToService(this.serviceId, response.id)
-          .subscribe(() => {
-            this.notificationServiceProvider.addNewNotification({
-              name: 'New form added!',
-              isReadByUser: false,
-              redirectionUrl: 'navigateToFormList',
-            });
-            this.navigationServiceProvider.navigateToServiceList();
+    if (this.isUpdate) {
+      this.genericFormServiceProvider
+        .updateFormById(this.genericForm.value.id, this.genericForm.value)
+        .subscribe(async (response) => {
+          this.notificationServiceProvider.addNewNotification({
+            name: 'Update form!',
+            isReadByUser: false,
+            redirectionUrl: 'navigateToFormList',
           });
-      });
+          await this.menuServiceProvider.updateListOfAllServices();
+          this.navigationServiceProvider.navigateToServiceList();
+        });
+    } else {
+      const { id, ...payload } = this.genericForm.value;
+      this.genericFormServiceProvider
+        .addNewForm(payload)
+        .subscribe((response) => {
+          this.formServiceProvider
+            .assignFormToService(this.serviceId, response.id)
+            .subscribe(async () => {
+              this.notificationServiceProvider.addNewNotification({
+                name: 'New form added!',
+                isReadByUser: false,
+                redirectionUrl: 'navigateToFormList',
+              });
+              await this.menuServiceProvider.updateListOfAllServices();
+              this.navigationServiceProvider.navigateToServiceList();
+            });
+        });
+    }
   }
 
   get fields() {
@@ -80,6 +111,10 @@ export class NewComponent {
     return this.fields.at(id).get('fields') as FormArray;
   }
 
+  private fetchFieldType(type: string) {
+    return this.fieldTypes.filter((f) => f.key == type)[0];
+  }
+
   private textFieldMetaInfoForm() {
     return this.fb.group({
       name: new FormControl('', Validators.required),
@@ -88,6 +123,7 @@ export class NewComponent {
       regex: new FormControl(''),
       required: new FormControl(false),
       displayOrder: new FormControl(1),
+      status: new FormControl('ACTIVE'),
       type: new FormControl(TYPES[0].key),
     });
   }
@@ -99,6 +135,7 @@ export class NewComponent {
       placeholder: new FormControl(''),
       required: new FormControl(false),
       displayOrder: new FormControl(1),
+      status: new FormControl('ACTIVE'),
       type: new FormControl(TYPES[1].key),
     });
   }
@@ -109,18 +146,20 @@ export class NewComponent {
       defaultValue: new FormControl(''),
       required: new FormControl(false),
       displayOrder: new FormControl(1),
+      status: new FormControl('ACTIVE'),
       type: new FormControl(TYPES[2].key),
     });
   }
 
-  private checkBoxMetaInfoForm() {
+  private checkBoxMetaInfoForm(typeNumber: number) {
     return this.fb.group({
       name: new FormControl('', Validators.required),
       defaultValue: new FormControl(''),
       required: new FormControl(false),
       displayOrder: new FormControl(1),
       fields: new FormArray([this.textFieldMetaInfoForm()]),
-      type: new FormControl(TYPES[4].key),
+      status: new FormControl('ACTIVE'),
+      type: new FormControl(TYPES[typeNumber].key),
     });
   }
 
@@ -132,6 +171,7 @@ export class NewComponent {
       type: new FormControl('', Validators.required),
       dataType: new FormControl('', Validators.required),
       required: new FormControl('', Validators.required),
+      status: new FormControl('ACTIVE'),
       value: new FormControl('', Validators.required),
     });
   }
@@ -158,13 +198,13 @@ export class NewComponent {
         this.fields.push(this.dateFieldMetaInfoForm());
         break;
       case 'CHECKBOX':
-        this.fields.push(this.checkBoxMetaInfoForm());
+        this.fields.push(this.checkBoxMetaInfoForm(4));
         break;
       case 'RADIO':
-        this.fields.push(this.checkBoxMetaInfoForm());
+        this.fields.push(this.checkBoxMetaInfoForm(5));
         break;
       case 'DROPDOWN':
-        this.fields.push(this.checkBoxMetaInfoForm());
+        this.fields.push(this.checkBoxMetaInfoForm(3));
         break;
       default:
         this.newField();

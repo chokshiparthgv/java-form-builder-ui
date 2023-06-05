@@ -20,7 +20,7 @@ export class ListComponent {
     private dialog: MatDialog,
     public navigationServiceProvider: NavigationService
   ) {
-    this.menuServiceProvider.getListOfServices().subscribe((response) => {
+    this.menuServiceProvider.allServices$.subscribe((response) => {
       this.listOfServices = response;
       this.isLoading = false;
     });

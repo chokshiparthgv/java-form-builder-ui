@@ -22,7 +22,6 @@ export class AssignFormComponent {
     private formServiceProvider: GenericFormService,
     private dialogRef: MatDialogRef<AssignFormComponent>
   ) {
-    console.log(data);
     this.isLoading = true;
     this.assignServiceForm = new FormGroup({
       serviceName: new FormControl('', Validators.required),

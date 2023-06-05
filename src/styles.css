@@ -2,7 +2,8 @@
 
 :root {
   --primary-color: white;
-  --primary-background-color: #001b4c;
+  --primary-background-color: #36B881;
+  --secondary-background-color: rgb(34, 34, 34);
 }
 
 html {
@@ -59,14 +60,11 @@ h1 {
 
 .list-val:hover {
   cursor: pointer;
-  background-color: var(--primary-color);
   color: var(--primary-background-color);
 }
 
 .list-val-selected {
   color: var(--primary-background-color);
-  background-color: var(--primary-color);
-  /* border-right: 3px solid var(--primary-background-color); */
 }
 
 .logout-container {
@@ -90,7 +88,7 @@ h1 {
 }
 
 .pd-20 {
-  padding: 20px;
+  padding: 20px !important;
 }
 
 .gap-5 {
@@ -169,7 +167,7 @@ h1 {
 }
 
 .bg-color-black {
-  background-color: var(--primary-background-color) !important;
+  background-color: var(--secondary-background-color) !important;
 }
 
 .font-color-white {
@@ -265,7 +263,7 @@ h1 {
 }
 
 .menu {
-  background-color: var(--primary-background-color);
+  background-color: var(--secondary-background-color);
   color: var(--primary-color);
 
 }
@@ -318,4 +316,29 @@ h1 {
 
 .bullet-point:hover {
   display: none;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.mat-grid-tile-content {
+  justify-content: flex-start !important;
+}
+
+.w-60 {
+  width: 50%;
+}
+
+.invalid-input {
+  color: red;
+  padding: 5px;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: transparent !important;
+}
+
+.mat-mdc-form-field-focus-overlay {
+  background-color: transparent !important;
 }

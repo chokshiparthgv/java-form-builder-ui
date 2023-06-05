@@ -6,6 +6,7 @@ export const ENDPOINTS = {
   ROLES: '/api/roles',
   ACCESS_RIGHTS: '/api/access-rights',
   FORM: '/api/forms-template',
+  SUBMIT_GENERIC_FORM: '/api/forms-template/:formId/entities/abcd/submit'
 };
 
 export const TYPES = [

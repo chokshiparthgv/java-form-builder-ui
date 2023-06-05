@@ -1,5 +1,5 @@
-<div>
-  <mat-card class="gap-10">
+<div *ngIf="!isLoading">
+  <mat-card class="gap-20">
     <mat-card-header>
       <mat-card-title *ngIf="this.currentMenuInfo">
         {{
@@ -9,59 +9,200 @@
         }}
       </mat-card-title>
       <mat-card-title *ngIf="!this.currentMenuInfo"> N/A </mat-card-title>
+      <mat-card-subtitle>
+        {{
+          this.currentMenuInfo.form?.description
+            ? this.currentMenuInfo.form?.description
+            : "N/A"
+        }}
+      </mat-card-subtitle>
     </mat-card-header>
-    <mat-card-content>
-      <div *ngIf="this.currentMenuInfo">
-        <div *ngIf="this.currentMenuInfo.form">
-          <form [formGroup]="currentFormMenu" class="d-flex gap-20 ai-center">
-            <div
-              *ngFor="let field of this.currentMenuInfo.form?.fields"
-              class="d-flex gap-20"
-            >
-              <div [ngSwitch]="field.type">
-                <div *ngSwitchCase="'input'">
-                  <mat-form-field appearance="outline">
-                    <mat-label>{{ field.name }}</mat-label>
-                    <input
-                      type="text"
-                      matInput
-                      [formControl]="listOfFormFields[field.name]"
-                    />
-                  </mat-form-field>
-                </div>
+    <div *ngIf="this.currentMenuInfo">
+      <div *ngIf="this.currentMenuInfo.form">
+        <form [formGroup]="currentFormMenu" (submit)="submitForm()">
+          <hr />
+          <mat-card-content class="pd-20">
+            <div class="d-flex gap-20 flex-wrap w-60">
+              <mat-grid-list cols="2" rowHeight="4:1" class="w-100">
+                <mat-grid-tile
+                  *ngFor="
+                    let field of this.currentMenuInfo.form?.fields;
+                    let i = index
+                  "
+                >
+                  <div [ngSwitch]="field.type">
+                    <ng-container *ngSwitchCase="'TEXT'">
+                      <mat-form-field appearance="outline">
+                        <mat-label>{{ field.name }} </mat-label>
+                        <input
+                          type="text"
+                          matInput
+                          formControlName="{{ field.id }}"
+                        />
+                      </mat-form-field>
+                      <div
+                        *ngIf="
+                          this.currentFormMenu.get(field.id)?.errors
+                            ? true
+                            : false
+                        "
+                        class="invalid-input"
+                      >
+                        Add {{ field.name }}
+                      </div>
+                    </ng-container>
 
-                <div *ngSwitchCase="'date'">
-                  <mat-form-field appearance="outline">
-                    <mat-label>{{ field.name }}</mat-label>
-                    <input
-                      matInput
-                      [matDatepicker]="dp1"
-                      disabled="{{
-                        this.currentMenuInfo.permission.includes('VIEW')
-                      }}"
-                    />
-                    <mat-hint>MM/DD/YYYY</mat-hint>
-                    <mat-datepicker-toggle
-                      matIconSuffix
-                      [for]="dp1"
-                    ></mat-datepicker-toggle>
-                    <mat-datepicker #dp1></mat-datepicker>
-                  </mat-form-field>
-                </div>
+                    <ng-container *ngSwitchCase="'NUMBER'">
+                      <mat-form-field appearance="outline">
+                        <mat-label>{{ field.name }}</mat-label>
+                        <input
+                          type="number"
+                          matInput
+                          formControlName="{{ field.id }}"
+                        />
+                      </mat-form-field>
 
-                
-              </div>
+                      <div
+                        *ngIf="
+                          this.currentFormMenu.get(field.id)?.errors
+                            ? true
+                            : false
+                        "
+                        class="invalid-input"
+                      >
+                        Add {{ field.name }}
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'DATE'">
+                      <mat-form-field appearance="outline">
+                        <mat-label>{{ field.name }}</mat-label>
+                        <input
+                          matInput
+                          [matDatepicker]="dp1"
+                          formControlName="{{ field.id }}"
+                        />
+                        <mat-hint>MM/DD/YYYY</mat-hint>
+                        <mat-datepicker-toggle
+                          matIconSuffix
+                          [for]="dp1"
+                        ></mat-datepicker-toggle>
+                        <mat-datepicker #dp1></mat-datepicker>
+                      </mat-form-field>
+                      <div
+                        *ngIf="
+                          this.currentFormMenu.get(field.id)?.errors
+                            ? true
+                            : false
+                        "
+                        class="invalid-input"
+                      >
+                        Add {{ field.name }}
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'DROPDOWN'">
+                      <mat-form-field appearance="outline">
+                        <mat-label>{{ field.name }}</mat-label>
+                        <mat-select
+                          matInput
+                          formControlName="{{ field.id }}"
+                          [value]="field.fields[0].name"
+                        >
+                          <mat-option
+                            *ngFor="let option of field.fields"
+                            [value]="option.name"
+                          >
+                            {{ option.name }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <div
+                        *ngIf="
+                          this.currentFormMenu.get(field.id)?.errors
+                            ? true
+                            : false
+                        "
+                        class="invalid-input"
+                      >
+                        Add {{ field.name }}
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'CHECKBOX'">
+                      <mat-form-field appearance="outline">
+                        <mat-label>{{ field.name }}</mat-label>
+                        <mat-select
+                          matInput
+                          formControlName="{{ field.id }}"
+                          multiple="true"
+                        >
+                          <mat-option
+                            *ngFor="let option of field.fields"
+                            [value]="option"
+                            >{{ option.name }}</mat-option
+                          >
+                        </mat-select>
+                      </mat-form-field>
+                      <div
+                        *ngIf="
+                          this.currentFormMenu.get(field.id)?.errors
+                            ? true
+                            : false
+                        "
+                        class="invalid-input"
+                      >
+                        Add {{ field.name }}
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'RADIO'">
+                      <span class="d-flex d-flex-dir-col">
+                        <mat-label
+                          ><b>{{ field.name }}</b></mat-label
+                        >
+                        <mat-radio-group formControlName="{{ field.id }}">
+                          <mat-radio-button
+                            *ngFor="let option of field.fields"
+                            [checked]="field.values ? true : false"
+                            [value]="option.name"
+                          >
+                            {{ option.name }}
+                          </mat-radio-button>
+                        </mat-radio-group>
+                      </span>
+                      <div
+                        *ngIf="
+                          this.currentFormMenu.get(field.id)?.errors
+                            ? true
+                            : false
+                        "
+                        class="invalid-input"
+                      >
+                        Add {{ field.name }}
+                      </div>
+                    </ng-container>
+                  </div>
+                </mat-grid-tile>
+              </mat-grid-list>
             </div>
+          </mat-card-content>
+          <mat-card-actions class="pd-20">
             <button
               mat-flat-button
               color="primary"
-              [disabled]="this.currentMenuInfo.permission.includes('VIEW')"
+              type="submit"
+              [disabled]="
+                this.currentMenuInfo.permission.includes('VIEW') ||
+                this.currentFormMenu.invalid ||
+                this.currentFormMenu.disabled
+              "
             >
               Submit
             </button>
-          </form>
-        </div>
+          </mat-card-actions>
+        </form>
       </div>
-    </mat-card-content>
+    </div>
   </mat-card>
 </div>

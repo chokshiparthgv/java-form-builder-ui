@@ -9,7 +9,7 @@ const routes: Routes = [
     component: AuthComponent,
   },
   {
-    path: 'dashboard',
+    path: 'java-builder-ui',
     canActivate: [AuthGuard],
     loadChildren: () =>
       import('./dashboard/dashboard.module').then((m) => m.DashboardModule),

@@ -1,13 +1,11 @@
-<div class="pd-20" *ngIf="!isLoading">
+<div class="pd-20 d-flex gap-20 d-flex-dir-col" *ngIf="!isLoading">
+  <app-new></app-new>
   <mat-card class="gap-20">
     <mat-card-header>
       <mat-card-title>
         <div class="d-flex justify-space-between">
           <div class="d-flex gap-20">
             <span>Services</span>
-          </div>
-          <div (click)="this.navigationServiceProvider.navigateToNewService()">
-            <button mat-button color="primary" class="add-btn">Add</button>
           </div>
         </div>
       </mat-card-title>

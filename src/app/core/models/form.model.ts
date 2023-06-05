@@ -1,15 +1,6 @@
-export interface IFormFields {
-  dataType: string;
-  defaultValue?: string;
-  displayName: string;
-  displayOrder: number;
-  fieldTemplateSet: [];
-  id: string;
-  name: string;
-  placeholder?: string;
-  regex?: string;
-  required: boolean;
-  type: string;
+export interface ISubField {
+  id: string,
+  value: string
 }
 
 export interface IFormFields1 {
@@ -22,12 +13,13 @@ export interface IFormFields1 {
   required: boolean;
   regex: string | null;
   fields: IFormFields1[];
-  valueList: any[] | null;
+  values: ISubField[];
+  status: boolean;
 }
 
 export interface IForm {
   description: string;
-  fields: IFormFields[];
+  fields: IFormFields1[];
   id: string;
   name: string;
 }

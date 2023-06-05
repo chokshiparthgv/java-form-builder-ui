@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../http/api.service';
 import { ENDPOINTS } from '../../helpers/constants';
+import { IFormFields1 } from '../../models/form.model';
 
 @Injectable({
   providedIn: 'root',
@@ -28,6 +29,28 @@ export class GenericFormService {
           ':serviceId',
           serviceId
         ).replace(':formId', formId)
+    );
+  }
+
+  updateFormById(formId: string, payload: IFormFields1) {
+    return this.apiServiceProvider.putApi(
+      this.apiServiceProvider.apiUri + ENDPOINTS.FORM + '/' + formId,
+      payload
+    );
+  }
+
+  submitGenericForm(formId: string, payload: any[]) {
+    return this.apiServiceProvider.putApi(
+      this.apiServiceProvider.apiUri +
+        ENDPOINTS.SUBMIT_GENERIC_FORM.replace(':formId', formId),
+      payload
+    );
+  }
+
+  getGenericFormByVisitId(formId: string) {
+    return this.apiServiceProvider.getApi(
+      this.apiServiceProvider.apiUri +
+        ENDPOINTS.SUBMIT_GENERIC_FORM.replace(':formId', formId)
     );
   }
 }
